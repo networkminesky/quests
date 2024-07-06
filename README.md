@@ -7,7 +7,7 @@
 [![Discord](https://ptb.discordapp.com/api/guilds/482632781395132416/widget.png)](https://discord.gg/H8fXrkD)
 [![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square)](https://gitmoji.dev)
 
-# BeautyQuests
+# "optimized" and cross-server BeautyQuests
 What is **BeautyQuests**?
 * BeautyQuests is a Minecraft quest plugin based on a simple-to-use graphical interface.
 * It's an absolutely free plugin with a full technical documentation.
