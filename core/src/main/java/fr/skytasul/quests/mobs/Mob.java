@@ -13,7 +13,7 @@ import fr.skytasul.quests.api.QuestsPlugin;
 import fr.skytasul.quests.api.mobs.LeveledMobFactory;
 import fr.skytasul.quests.api.mobs.MobFactory;
 import fr.skytasul.quests.api.utils.Utils;
-import fr.skytasul.quests.api.utils.XMaterial;
+import com.cryptomorin.xseries.XMaterial;
 
 public class Mob<D> implements Cloneable {
 

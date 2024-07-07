@@ -2,6 +2,8 @@ package fr.skytasul.quests.stages;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
@@ -38,7 +40,6 @@ import fr.skytasul.quests.api.stages.types.Dialogable;
 import fr.skytasul.quests.api.stages.types.Locatable;
 import fr.skytasul.quests.api.stages.types.Locatable.LocatableType;
 import fr.skytasul.quests.api.stages.types.Locatable.LocatedType;
-import fr.skytasul.quests.api.utils.XMaterial;
 import fr.skytasul.quests.api.utils.messaging.PlaceholderRegistry;
 import fr.skytasul.quests.npcs.BQNPCClickEvent;
 import fr.skytasul.quests.utils.QuestUtils;
@@ -53,7 +54,7 @@ public class StageNPC extends AbstractStage implements Locatable.PreciseLocatabl
 	protected DialogRunnerImplementation dialogRunner = null;
 	protected boolean hide = false;
 
-	private BukkitTask task;
+	private BukkitTask task = null;
 
 	private List<Player> cached = new ArrayList<>();
 	protected AbstractHolograms<?>.BQHologram hologram;
@@ -62,46 +63,40 @@ public class StageNPC extends AbstractStage implements Locatable.PreciseLocatabl
 		super(controller);
 	}
 
-	private void launchRefreshTask() {
-		if (npc == null)
+	void tickHere() {
+		List<Player> tmp = new ArrayList<>();
+
+		Entity en = npc.getNpc().getEntity();
+		if (en == null)
 			return;
-		task = new BukkitRunnable() {
-			List<Player> tmp = new ArrayList<>();
+		if (!en.getType().isAlive())
+			return;
+		Location lc = en.getLocation();
+		tmp.clear();
+		for (Player p : cached) {
+			if (p.getWorld() != lc.getWorld())
+				continue;
+			if (lc.distance(p.getLocation()) > 50)
+				continue;
+			tmp.add(p);
+		}
 
-			@Override
-			public void run() {
-				Entity en = npc.getNpc().getEntity();
-				if (en == null)
-					return;
-				if (!en.getType().isAlive())
-					return;
-				Location lc = en.getLocation();
-				tmp.clear();
-				for (Player p : cached) {
-					if (p.getWorld() != lc.getWorld())
-						continue;
-					if (lc.distance(p.getLocation()) > 50)
-						continue;
-					tmp.add(p);
-				}
+		if (QuestsConfigurationImplementation.getConfiguration().getHoloTalkItem() != null
+				&& QuestsAPI.getAPI().hasHologramsManager()
+				&& QuestsAPI.getAPI().getHologramsManager().supportItems()
+				&& QuestsAPI.getAPI().getHologramsManager().supportPerPlayerVisibility()) {
+			if (hologram == null)
+				createHoloLaunch();
+			hologram.setPlayersVisible(tmp);
+			hologram.teleport(QuestUtils.upLocationForEntity((LivingEntity) en, 1));
+		}
 
-				if (QuestsConfigurationImplementation.getConfiguration().getHoloTalkItem() != null
-						&& QuestsAPI.getAPI().hasHologramsManager()
-						&& QuestsAPI.getAPI().getHologramsManager().supportItems()
-						&& QuestsAPI.getAPI().getHologramsManager().supportPerPlayerVisibility()) {
-					if (hologram == null)
-						createHoloLaunch();
-					hologram.setPlayersVisible(tmp);
-					hologram.teleport(QuestUtils.upLocationForEntity((LivingEntity) en, 1));
-				}
+		if (QuestsConfigurationImplementation.getConfiguration().showTalkParticles()) {
+			if (tmp.isEmpty())
+				return;
+			QuestsConfigurationImplementation.getConfiguration().getParticleTalk().send(en, tmp);
+		}
 
-				if (QuestsConfigurationImplementation.getConfiguration().showTalkParticles()) {
-					if (tmp.isEmpty())
-						return;
-					QuestsConfigurationImplementation.getConfiguration().getParticleTalk().send(en, tmp);
-				}
-			}
-		}.runTaskTimer(BeautyQuests.getInstance(), 20L, 6L);
 	}
 
 	private void createHoloLaunch() {
@@ -286,7 +281,7 @@ public class StageNPC extends AbstractStage implements Locatable.PreciseLocatabl
 		if (QuestsConfigurationImplementation.getConfiguration().showTalkParticles()
 				|| QuestsConfigurationImplementation.getConfiguration().getHoloTalkItem() != null) {
 			if (!hide)
-				launchRefreshTask();
+				NPCMaster.stageNPCS.add(this); //launchRefreshTask();
 		}
 	}
 

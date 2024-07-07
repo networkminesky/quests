@@ -10,7 +10,7 @@ import fr.skytasul.quests.api.localization.Lang;
 import fr.skytasul.quests.api.options.OptionSet;
 import fr.skytasul.quests.api.options.QuestOption;
 import fr.skytasul.quests.api.quests.creation.QuestCreationGuiClickEvent;
-import fr.skytasul.quests.api.utils.XMaterial;
+import com.cryptomorin.xseries.XMaterial;
 import fr.skytasul.quests.utils.QuestUtils;
 
 public class OptionQuestItem extends QuestOption<ItemStack> {

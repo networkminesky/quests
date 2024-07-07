@@ -28,7 +28,7 @@ import fr.skytasul.quests.api.stages.creation.StageGuiLine;
 import fr.skytasul.quests.api.stages.types.Locatable;
 import fr.skytasul.quests.api.stages.types.Locatable.LocatableType;
 import fr.skytasul.quests.api.stages.types.Locatable.LocatedType;
-import fr.skytasul.quests.api.utils.XMaterial;
+import com.cryptomorin.xseries.XMaterial;
 import fr.skytasul.quests.api.utils.messaging.MessageType;
 import fr.skytasul.quests.api.utils.messaging.MessageUtils;
 import fr.skytasul.quests.api.utils.messaging.PlaceholderRegistry;

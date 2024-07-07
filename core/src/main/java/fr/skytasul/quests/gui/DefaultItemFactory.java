@@ -7,7 +7,7 @@ import fr.skytasul.quests.api.QuestsConfiguration;
 import fr.skytasul.quests.api.gui.ItemFactory;
 import fr.skytasul.quests.api.localization.Lang;
 import fr.skytasul.quests.api.utils.XEnchantment;
-import fr.skytasul.quests.api.utils.XMaterial;
+import com.cryptomorin.xseries.XMaterial;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;

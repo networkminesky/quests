@@ -10,7 +10,7 @@ import fr.skytasul.quests.api.options.OptionSet;
 import fr.skytasul.quests.api.options.QuestOption;
 import fr.skytasul.quests.api.quests.creation.QuestCreationGuiClickEvent;
 import fr.skytasul.quests.api.utils.Utils;
-import fr.skytasul.quests.api.utils.XMaterial;
+import com.cryptomorin.xseries.XMaterial;
 
 public class OptionTimer extends QuestOption<Integer> {
 	
